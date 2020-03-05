@@ -35,14 +35,20 @@ while flag:
     if diff == "1":
         MODE_BUTTON = (250,180)
         TIME_LIMIT = 60
+        ROI_UL = (410,360)
+        ROI_LR = (550,390)
         flag = False
     elif diff == "2":
         MODE_BUTTON = (250,275)
+        ROI_UL = (370,360)
+        ROI_LR = (585,390)
         TIME_LIMIT = 90
         flag = False
     elif diff == "3":
         MODE_BUTTON = (250,300)
         TIME_LIMIT = 120
+        ROI_UL = (325,360)
+        ROI_LR = (635,390)
         flag = False
     else:
         print("[ERROR] mode select again")
@@ -84,9 +90,9 @@ start_time = time.time()
 while time.time() - start_time < TIME_LIMIT:
     driver.save_screenshot("frame.png")
     frame = cv2.imread("frame.png")
-    ROI = frame[360:390,325:635]
+    ROI = frame[ROI_UL[1]:ROI_LR[1],ROI_UL[0]:ROI_LR[0]]
     ROI = cv2.bitwise_not(ROI)
-    cv2.imwrite("aaa.png",ROI)
+    cv2.imwrite("ROI.png",ROI)
     ROI = cv2pil(ROI)
     sentence = tesserocr.image_to_text(ROI,lang="eng")
     element.send_keys(sentence)
@@ -97,3 +103,4 @@ input("エンターキーを押すと終了するよ")
 driver.close()
 driver.quit()
 os.remove("frame.png")
+os.remove("ROI.png")
