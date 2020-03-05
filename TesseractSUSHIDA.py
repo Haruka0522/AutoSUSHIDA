@@ -10,8 +10,8 @@ import os
 
 
 START_BUTTON = (250,250)
-SUSHIDA_URL = "http://typingx0.net/sushida/play.html"
 WINDOW_SIZE = (990,1080)
+SUSHIDA_URL = "http://typingx0.net/sushida/play.html"
 
 
 def cv2pil(image):
@@ -85,6 +85,8 @@ while time.time() - start_time < TIME_LIMIT:
     driver.save_screenshot("frame.png")
     frame = cv2.imread("frame.png")
     sentence_area = frame[360:390,325:635]
+    sentence_area = cv2.bitwise_not(sentence_area)
+    cv2.imwrite("aaa.png",sentence_area)
     sentence_area = cv2pil(sentence_area)
     sentence = tesserocr.image_to_text(sentence_area,lang="eng")
     element.send_keys(sentence)
