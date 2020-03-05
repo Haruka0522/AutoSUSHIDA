@@ -84,11 +84,11 @@ start_time = time.time()
 while time.time() - start_time < TIME_LIMIT:
     driver.save_screenshot("frame.png")
     frame = cv2.imread("frame.png")
-    sentence_area = frame[360:390,325:635]
-    sentence_area = cv2.bitwise_not(sentence_area)
-    cv2.imwrite("aaa.png",sentence_area)
-    sentence_area = cv2pil(sentence_area)
-    sentence = tesserocr.image_to_text(sentence_area,lang="eng")
+    ROI = frame[360:390,325:635]
+    ROI = cv2.bitwise_not(ROI)
+    cv2.imwrite("aaa.png",ROI)
+    ROI = cv2pil(ROI)
+    sentence = tesserocr.image_to_text(ROI,lang="eng")
     element.send_keys(sentence)
     print(sentence)
 
